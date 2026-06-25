@@ -6,7 +6,7 @@
   const G = window.GOTHAM;
   const $ = (sel) => document.querySelector(sel);
 
-  const TITLE = 'FROGGER IN NYC'; // display name shown on the idle banner
+  const TITLE = 'Frogger in NYC'; // display name shown on the idle banner
 
   const canvas = $('#stage');
   const game = new G.Game(canvas, { onState: renderHUD, onMessage: showBanner });
