@@ -74,7 +74,7 @@ GOTHAM.Game = class Game {
     this.streetIndex = index;
     const street = this.streets[index];
     this.street = street;
-    this.avatar = street.avatar || this.R.DEFAULT_AVATAR;
+    this.theme = street.theme || 'default';
 
     // Gentle per-street ramp (set by the chosen difficulty) times the global
     // difficulty speed scale. This is what makes "Easy" genuinely easier on
@@ -102,7 +102,7 @@ GOTHAM.Game = class Game {
       lane.dir = row.dir;
       lane.speed = row.speed * mult;
       lane.len = sprite.len;
-      lane.glyph = sprite.glyph;
+      lane.shape = sprite.shape;
       lane.color = sprite.color;
       // period = tiles between the start of one entity and the next.
       // The wrap span is an exact multiple of period so spacing stays perfectly
@@ -294,7 +294,7 @@ GOTHAM.Game = class Game {
       setTimeout(() => this._loadStreet(this.streetIndex + 1), 900);
     } else {
       this.running = false;
-      this.onMessage('YOU WON THE CITY 🗽', `Final score: ${this.score}`);
+      this.onMessage('YOU WON THE CITY', `Final score: ${this.score}`);
     }
   }
 
@@ -356,18 +356,10 @@ GOTHAM.Game = class Game {
     this.lanes.forEach((lane, i) => {
       const y = i * T;
       this._drawLaneBg(lane, y, T);
-      // entities
+      // entities — drawn as vector sprites (no emoji)
       if (lane.entities && lane.dir) {
-        ctx.font = `${Math.floor(T * 0.8)}px serif`;
         for (const e of lane.entities) {
-          const cx = (e.x + lane.len / 2) * T;
-          // platforms read better as a bar with a glyph; vehicles as glyphs
-          if (lane.type === 'water') {
-            ctx.fillStyle = lane.color;
-            this._roundRect(e.x * T + 3, y + T * 0.28, lane.len * T - 6, T * 0.44, 8);
-            ctx.fill();
-          }
-          ctx.fillText(lane.glyph, cx, y + T / 2 + 1);
+          GOTHAM.SPRITES.draw(ctx, lane.shape, e.x * T, y, lane.len * T, T, lane.color, lane.dir);
         }
       }
       if (lane.type === 'goal') this._drawGoals(lane, y, T);
@@ -429,26 +421,29 @@ GOTHAM.Game = class Game {
       ctx.fillStyle = 'rgba(255,255,255,0.04)';
       for (let x = 0; x < W; x += 12) ctx.fillRect(x, y, 6, T);
     }
+
+    // Per-street themed backdrop (e.g. Chinatown lanterns & storefronts).
+    const decor = GOTHAM.DECOR[this.theme];
+    if (decor) {
+      const tint = decor.tint && decor.tint[lane.type];
+      if (tint) { ctx.fillStyle = tint; ctx.fillRect(0, y, W, T); }
+      if (decor.lane) decor.lane(ctx, lane, y, T, W);
+    }
   }
 
   _drawGoals(lane, y, T) {
     const { ctx } = this;
+    const isCt = this.theme === 'chinatown';
     for (let c = 0; c < this.R.COLS; c++) {
       const isSlot = lane.slots.includes(c);
-      const cx = c * T + T / 2;
       if (isSlot) {
-        ctx.font = `${Math.floor(T * 0.7)}px serif`;
-        if (this.filledSlots.has(c)) {
-          ctx.fillText('🐸', cx, y + T / 2 + 1);
-        } else {
-          ctx.globalAlpha = 0.85;
-          ctx.fillText('🗽', cx, y + T / 2 + 1);
-          ctx.globalAlpha = 1;
-        }
+        GOTHAM.SPRITES.goalSlot(ctx, c * T, y, T, this.filledSlots.has(c), this.theme);
       } else {
-        // hedge wall between stoops
-        ctx.fillStyle = '#166534';
+        // wall between stoops — a hedge, or a brick shopfront in Chinatown
+        ctx.fillStyle = isCt ? '#7c2d12' : '#166534';
         ctx.fillRect(c * T + 2, y + 4, T - 4, T - 8);
+        ctx.fillStyle = isCt ? 'rgba(251,191,36,0.25)' : 'rgba(255,255,255,0.06)';
+        ctx.fillRect(c * T + 2, y + 4, T - 4, T * 0.12);
       }
     }
   }
@@ -473,8 +468,7 @@ GOTHAM.Game = class Game {
     const lift = h.hopT > 0 ? Math.sin((1 - h.hopT / this.R.HOP_MS) * Math.PI) * 6 : 0;
     // Blink while invulnerable just after a respawn.
     ctx.globalAlpha = this.grace > 0 && Math.floor(this.grace * 10) % 2 === 0 ? 0.45 : 1;
-    ctx.font = `${Math.floor(T * 0.82)}px serif`;
-    ctx.fillText(this.avatar, cx, cy - lift);
+    GOTHAM.SPRITES.frog(ctx, cx, cy - lift, T * 0.44);
     ctx.globalAlpha = 1;
   }
 

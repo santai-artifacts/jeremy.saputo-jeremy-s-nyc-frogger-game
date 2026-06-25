@@ -83,6 +83,8 @@ body {
   font-size: 11px; letter-spacing: .04em; text-transform: uppercase;
   color: var(--muted); font-weight: 600;
 }
+.life-frog { vertical-align: -3px; margin-right: 2px; }
+.life-count { font-weight: 600; }
 
 /* ---- Stage -------------------------------------------------------------- */
 .stage-wrap {
@@ -112,10 +114,11 @@ body {
   max-width: 360px;
 }
 .banner-inner h2 {
-  font-family: var(--font);
-  font-weight: 700; letter-spacing: -0.02em;
-  font-size: clamp(26px, 6vw, 36px);
-  margin: 0 0 10px;
+  font-family: 'Bungee', var(--font);   /* playful arcade face for the game title & level names */
+  font-weight: 400; letter-spacing: 0.5px;
+  font-size: clamp(24px, 5.5vw, 34px);
+  line-height: 1.1;
+  margin: 0 0 12px;
   color: var(--ink);
 }
 .banner-inner p {

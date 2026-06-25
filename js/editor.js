@@ -139,7 +139,7 @@
           </select></label>
         <label>sprite
           <select data-k="sprite">
-            ${sprites.map((s) => `<option value="${s}" ${s === row.sprite ? 'selected' : ''}>${G.CATALOG[s].glyph} ${s}</option>`).join('')}
+            ${sprites.map((s) => `<option value="${s}" ${s === row.sprite ? 'selected' : ''}>${s}</option>`).join('')}
           </select></label>
         <label>speed <input type="number" data-k="speed" min="0.2" max="6" step="0.2" value="${row.speed}"></label>
         <label>gap <input type="number" data-k="gap" min="1" max="12" step="1" value="${row.gap}"></label>`;

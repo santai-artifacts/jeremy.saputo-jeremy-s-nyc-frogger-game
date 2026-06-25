@@ -2,15 +2,16 @@
   "id": "canal-street",
   "name": "Canal Street",
   "author": "core-team",
-  "description": "Chinatown gridlock. A gentle warm-up — wide gaps, slow traffic.",
+  "theme": "chinatown",
+  "description": "Chinatown gridlock by the 5th Precinct. Dodge dropped wallets, snatched purses, and the NYPD rolling through.",
   "rows": [
     { "type": "goal",  "slots": [1, 4, 6, 8, 11] },
     { "type": "safe" },
-    { "type": "road",  "dir":  1, "speed": 1.2, "sprite": "cart", "gap": 6 },
-    { "type": "road",  "dir": -1, "speed": 1.0, "sprite": "taxi", "gap": 5 },
+    { "type": "road",  "dir":  1, "speed": 1.2, "sprite": "wallet", "gap": 6 },
+    { "type": "road",  "dir": -1, "speed": 1.0, "sprite": "police", "gap": 5 },
     { "type": "safe" },
-    { "type": "road",  "dir":  1, "speed": 1.4, "sprite": "bus",  "gap": 6 },
-    { "type": "road",  "dir": -1, "speed": 1.2, "sprite": "car",  "gap": 5 },
+    { "type": "road",  "dir":  1, "speed": 1.4, "sprite": "purse",  "gap": 6 },
+    { "type": "road",  "dir": -1, "speed": 1.2, "sprite": "police", "gap": 5 },
     { "type": "start" }
   ]
 }

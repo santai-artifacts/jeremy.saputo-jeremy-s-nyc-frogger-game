@@ -64,18 +64,23 @@ GOTHAM.DEFAULT_DIFFICULTY = 'easy';
  * ---------------------------------------------------------------------------*/
 GOTHAM.CATALOG = {
   // Road hazards ------------------------------------------------------------
-  taxi:   { kind: 'vehicle', len: 1, glyph: '🚕', color: '#f7c948' },
-  car:    { kind: 'vehicle', len: 1, glyph: '🚗', color: '#3b82f6' },
-  bike:   { kind: 'vehicle', len: 1, glyph: '🚲', color: '#cbd5e1' },
-  bus:    { kind: 'vehicle', len: 2, glyph: '🚌', color: '#60a5fa' },
-  truck:  { kind: 'vehicle', len: 2, glyph: '🚚', color: '#e2e8f0' },
-  cart:   { kind: 'vehicle', len: 1, glyph: '🛺', color: '#fb923c' }, // halal cart / tuk
+  // `shape` selects the vector drawing routine in sprites.js; `color` is its
+  // base paint. No emoji — everything on the board is drawn.
+  taxi:   { kind: 'vehicle', len: 1, shape: 'car',    color: '#f7c948' },
+  car:    { kind: 'vehicle', len: 1, shape: 'car',    color: '#3b82f6' },
+  police: { kind: 'vehicle', len: 1, shape: 'police', color: '#1d4ed8' },
+  bike:   { kind: 'vehicle', len: 1, shape: 'bike',   color: '#22d3ee' },
+  bus:    { kind: 'vehicle', len: 2, shape: 'bus',    color: '#60a5fa' },
+  truck:  { kind: 'vehicle', len: 2, shape: 'truck',  color: '#e2e8f0' },
+  cart:   { kind: 'vehicle', len: 1, shape: 'cart',   color: '#fb923c' }, // halal/food cart
+  wallet: { kind: 'vehicle', len: 1, shape: 'wallet', color: '#92400e' }, // pickpocket loot
+  purse:  { kind: 'vehicle', len: 1, shape: 'purse',  color: '#be123c' },
 
   // Water footing -----------------------------------------------------------
-  ferry:  { kind: 'platform', len: 3, glyph: '⛴️', color: '#f97316' },
-  barge:  { kind: 'platform', len: 2, glyph: '🛥️', color: '#94a3b8' },
-  raft:   { kind: 'platform', len: 2, glyph: '🪵', color: '#92400e' },
-  kayak:  { kind: 'platform', len: 1, glyph: '🛶', color: '#a16207' },
+  ferry:  { kind: 'platform', len: 3, shape: 'ferry', color: '#f97316' },
+  barge:  { kind: 'platform', len: 2, shape: 'barge', color: '#64748b' },
+  raft:   { kind: 'platform', len: 2, shape: 'raft',  color: '#92400e' },
+  kayak:  { kind: 'platform', len: 1, shape: 'kayak', color: '#eab308' },
 };
 
 /* -----------------------------------------------------------------------------

@@ -8,6 +8,16 @@
 
   const TITLE = 'Frogger in NYC'; // display name shown on the idle banner
 
+  // Tiny drawn frog for the Lives readout (no emoji anywhere in the game).
+  const FROG_ICON =
+    '<svg class="life-frog" width="16" height="16" viewBox="0 0 32 32" aria-hidden="true">' +
+    '<ellipse cx="16" cy="18" rx="8" ry="8.5" fill="#43b14b"/>' +
+    '<ellipse cx="16" cy="20" rx="4.5" ry="5.5" fill="#62c96a"/>' +
+    '<circle cx="11" cy="9" r="4" fill="#43b14b"/><circle cx="21" cy="9" r="4" fill="#43b14b"/>' +
+    '<circle cx="11" cy="8.5" r="2" fill="#fff"/><circle cx="21" cy="8.5" r="2" fill="#fff"/>' +
+    '<circle cx="11.4" cy="8.5" r="1" fill="#10240f"/><circle cx="20.6" cy="8.5" r="1" fill="#10240f"/>' +
+    '</svg>';
+
   const canvas = $('#stage');
   const game = new G.Game(canvas, { onState: renderHUD, onMessage: showBanner });
 
@@ -52,7 +62,7 @@
     sel.innerHTML = '';
     const all = document.createElement('option');
     all.value = '__all__';
-    all.textContent = '🗽 Full City Run (all streets)';
+    all.textContent = 'Full City Run (all streets)';
     sel.appendChild(all);
     for (const s of library.values()) {
       const o = document.createElement('option');
@@ -80,7 +90,7 @@
   // ---- HUD ----------------------------------------------------------------
   function renderHUD(s) {
     $('#hudScore').textContent = s.score.toLocaleString();
-    $('#hudLives').textContent = s.lives > 0 ? '🐸 × ' + s.lives : '—';
+    $('#hudLives').innerHTML = s.lives > 0 ? `${FROG_ICON} <span class="life-count">× ${s.lives}</span>` : '—';
     $('#hudTime').textContent = s.time.toFixed(1) + 's';
     $('#hudStreet').textContent = `${s.streetName}  (${s.streetNum}/${s.streetTotal})`;
   }
