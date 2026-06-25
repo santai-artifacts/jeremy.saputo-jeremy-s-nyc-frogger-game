@@ -2,16 +2,17 @@
   "id": "42nd-street",
   "name": "42nd Street Rush Hour",
   "author": "core-team",
-  "description": "Times Square at full tilt. The toughest block in the city.",
+  "theme": "timessquare",
+  "description": "Times Square at full tilt under the billboards. Snatched purses, dropped wallets, and NYPD weaving through — the toughest block in the city.",
   "rows": [
     { "type": "goal",  "slots": [1, 3, 6, 9, 11] },
     { "type": "water", "dir": 1,  "speed": 1.8, "sprite": "barge", "gap": 3 },
     { "type": "water", "dir": -1, "speed": 2.0, "sprite": "kayak", "gap": 2 },
     { "type": "safe" },
-    { "type": "road",  "dir": -1, "speed": 2.8, "sprite": "taxi",  "gap": 3 },
-    { "type": "road",  "dir": 1,  "speed": 2.4, "sprite": "car",   "gap": 3 },
-    { "type": "road",  "dir": -1, "speed": 2.2, "sprite": "bus",   "gap": 4 },
-    { "type": "road",  "dir": 1,  "speed": 2.8, "sprite": "bike",  "gap": 3 },
+    { "type": "road",  "dir": -1, "speed": 2.8, "sprite": "police", "gap": 3 },
+    { "type": "road",  "dir": 1,  "speed": 2.4, "sprite": "purse",  "gap": 3 },
+    { "type": "road",  "dir": -1, "speed": 2.2, "sprite": "wallet", "gap": 4 },
+    { "type": "road",  "dir": 1,  "speed": 2.8, "sprite": "police", "gap": 3 },
     { "type": "start" }
   ]
 }

@@ -26,6 +26,14 @@ window.GOTHAM = window.GOTHAM || {};
     ctx.closePath();
   }
   function dot(ctx, x, y, r) { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.closePath(); }
+  function star(ctx, cx, cy, r, color) {
+    ctx.fillStyle = color; ctx.beginPath();
+    for (let i = 0; i < 10; i++) {
+      const a = -Math.PI / 2 + i * Math.PI / 5, rad = i % 2 ? r * 0.45 : r;
+      ctx.lineTo(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad);
+    }
+    ctx.closePath(); ctx.fill();
+  }
   function shade(hex, f) {
     // lighten (f>0) / darken (f<0) a #rrggbb color
     const n = parseInt(hex.slice(1), 16);
@@ -74,15 +82,21 @@ window.GOTHAM = window.GOTHAM || {};
     car(ctx, x, y, w, h, color, dir) { carBody(ctx, x, y, w, h, color, dir); },
 
     police(ctx, x, y, w, h, color, dir) {
-      // NYPD-style: white body, blue stripe, roof light bar
-      const b = carBody(ctx, x, y, w, h, '#f8fafc', dir);
-      ctx.fillStyle = color; // blue accent
-      rr(ctx, b.bx, b.by + b.bh * 0.42, b.bw, b.bh * 0.22, 2); ctx.fill();
-      // light bar
-      const lbw = b.cw * 0.7, lbx = b.cx + (b.cw - lbw) / 2, lby = b.cy - h * 0.12, lbh = h * 0.10;
+      // NYPD-style: white body, bold navy door stripe, gold badge, big light bar
+      const b = carBody(ctx, x, y, w, h, '#fbfdff', dir);
+      // navy door stripe
+      ctx.fillStyle = '#1e3a8a'; rr(ctx, b.bx, b.by + b.bh * 0.34, b.bw, b.bh * 0.34, 2); ctx.fill();
+      ctx.fillStyle = '#2563eb'; rr(ctx, b.bx, b.by + b.bh * 0.30, b.bw, b.bh * 0.07, 1); ctx.fill();
+      // gold badge on the door
+      star(ctx, b.bx + b.bw * 0.5, b.by + b.bh * 0.51, h * 0.075, '#fcd34d');
+      // prominent roof light bar that overhangs the cabin, with a colored glow
+      const lbw = b.cw * 0.96, lbx = b.cx + (b.cw - lbw) / 2, lbh = h * 0.14, lby = b.cy - lbh * 0.95;
+      ctx.fillStyle = 'rgba(239,68,68,0.4)'; dot(ctx, lbx + lbw * 0.26, lby + lbh / 2, lbh * 0.95); ctx.fill();
+      ctx.fillStyle = 'rgba(59,130,246,0.4)'; dot(ctx, lbx + lbw * 0.74, lby + lbh / 2, lbh * 0.95); ctx.fill();
       ctx.fillStyle = '#0b1220'; rr(ctx, lbx, lby, lbw, lbh, 2); ctx.fill();
-      ctx.fillStyle = '#ef4444'; rr(ctx, lbx + 1, lby + 1, lbw / 2 - 2, lbh - 2, 1.5); ctx.fill();
-      ctx.fillStyle = '#3b82f6'; rr(ctx, lbx + lbw / 2 + 1, lby + 1, lbw / 2 - 2, lbh - 2, 1.5); ctx.fill();
+      ctx.fillStyle = '#ef4444'; rr(ctx, lbx + 1.5, lby + 1.5, lbw / 2 - 2.5, lbh - 3, 1.5); ctx.fill();
+      ctx.fillStyle = '#3b82f6'; rr(ctx, lbx + lbw / 2 + 1, lby + 1.5, lbw / 2 - 2.5, lbh - 3, 1.5); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fillRect(lbx + lbw / 2 - 0.6, lby + 1.5, 1.2, lbh - 3);
     },
 
     bus(ctx, x, y, w, h, color, dir) {
@@ -312,6 +326,38 @@ window.GOTHAM = window.GOTHAM || {};
   }
 
   const DECOR = {
+    // Broadway theatre district — gilded marquees and bulb strings.
+    broadway: {
+      tint: { road: 'rgba(46,16,64,0.18)', safe: 'rgba(120,86,18,0.14)', start: 'rgba(120,86,18,0.14)' },
+      lane(ctx, lane, y, T, W) {
+        if (lane.type === 'goal') {
+          ctx.fillStyle = '#7c2d12'; ctx.fillRect(0, y, W, T * 0.16);
+          ctx.fillStyle = '#facc15'; ctx.fillRect(0, y + T * 0.135, W, 2);
+          for (let bx = 9; bx < W; bx += 16) { ctx.fillStyle = '#fde68a'; dot(ctx, bx, y + T * 0.07, 2.2); ctx.fill(); }
+        } else if (lane.type === 'safe' || lane.type === 'start') {
+          ctx.strokeStyle = 'rgba(250,204,21,0.45)'; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(0, y + 4); ctx.lineTo(W, y + 4); ctx.stroke();
+          let i = 0;
+          for (let bx = 10; bx < W; bx += 20) { ctx.fillStyle = i++ % 2 ? '#fde68a' : '#fca5a5'; dot(ctx, bx, y + 4, 2); ctx.fill(); }
+        }
+      },
+    },
+    // Times Square — stacked neon billboards.
+    timessquare: {
+      tint: { road: 'rgba(8,8,28,0.24)', safe: 'rgba(16,16,44,0.28)', start: 'rgba(16,16,44,0.28)' },
+      lane(ctx, lane, y, T, W) {
+        if (lane.type === 'goal' || lane.type === 'safe' || lane.type === 'start') {
+          const cols = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#ec4899', '#06b6d4'];
+          const n = 6, pw = W / n;
+          for (let i = 0; i < n; i++) {
+            ctx.fillStyle = cols[i % cols.length];
+            rr(ctx, i * pw + 3, y + 2, pw - 6, T * 0.15, 2); ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,0.55)';
+            rr(ctx, i * pw + 5, y + 3.5, pw - 10, T * 0.045, 1); ctx.fill();
+          }
+        }
+      },
+    },
     chinatown: {
       // warm tint applied over the base lane fills
       tint: { road: 'rgba(60,20,20,0.18)', water: null, safe: 'rgba(120,40,30,0.16)', start: 'rgba(120,40,30,0.16)', goal: null },
