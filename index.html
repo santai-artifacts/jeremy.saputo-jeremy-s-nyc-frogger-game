@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Frogger in NYC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ===== Header row: logo + difficulty ===== -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="logo">FROGGER&nbsp;IN&nbsp;NYC</h1>
+        <p class="tagline">A New York City take on the arcade classic</p>
+      </div>
+      <div class="topbar-right">
+        <span class="field-label">Difficulty</span>
+        <div id="difficulty" class="segmented" role="group" aria-label="Difficulty">
+          <button class="seg" data-diff="easy">Easy</button>
+          <button class="seg" data-diff="normal">Normal</button>
+          <button class="seg" data-diff="hard">Hard</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== HUD ===== -->
+    <div class="hud">
+      <div class="hud-item"><span class="hud-label">Score</span><span id="hudScore">0</span></div>
+      <div class="hud-item"><span class="hud-label">Lives</span><span id="hudLives">🐸🐸🐸</span></div>
+      <div class="hud-item"><span class="hud-label">Time</span><span id="hudTime">90s</span></div>
+      <div class="hud-item wide"><span class="hud-label">Street</span><span id="hudStreet">—</span></div>
+    </div>
+
+    <!-- ===== Canvas — banner button is the ONLY play button ===== -->
+    <div class="stage-wrap">
+      <canvas id="stage" width="624" height="384"></canvas>
+      <div id="banner" class="banner show">
+        <div class="banner-inner">
+          <h2 id="bannerTitle">FROGGER IN NYC</h2>
+          <p id="bannerSub">Pick a street below, then tap Play.</p>
+          <button id="bannerBtn" class="btn primary big pulse">▶ Play</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== D-pad — directly under canvas ===== -->
+    <div class="pad-wrap">
+      <div class="dpad" role="group" aria-label="Movement controls">
+        <button class="dbtn area-up"    data-move="0,-1"  aria-label="Up">▲</button>
+        <button class="dbtn area-left"  data-move="-1,0"  aria-label="Left">◀</button>
+        <button class="dbtn area-down"  data-move="0,1"   aria-label="Down">▼</button>
+        <button class="dbtn area-right" data-move="1,0"   aria-label="Right">▶</button>
+        <span class="dpad-hub" aria-hidden="true">🐸</span>
+      </div>
+    </div>
+
+    <!-- ===== Settings row: street picker + pause + editor ===== -->
+    <div class="settings-row">
+      <select id="streetPicker" class="picker" aria-label="Choose a street"></select>
+      <button id="pauseBtn" class="btn icon-only" disabled title="Pause (P)">⏸</button>
+      <button id="editorBtn" class="btn icon-only" title="Street Editor">🛠️</button>
+    </div>
+    <p id="loadReport" class="load-report"></p>
+
+    <footer class="footer">
+      <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / arrows</span>
+      <span class="sep">•</span>
+      <span><kbd>P</kbd> pause</span>
+      <span class="sep">•</span>
+      <span>swipe on mobile</span>
+    </footer>
+
+    <section class="about">
+      <h3>How this game is built</h3>
+      <p>Frogger in NYC has two layers. The <strong>core rules engine</strong> (<code>js/</code>)
+        is owned by a small team and defines how the game plays for everyone. The
+        <strong>street layer</strong> (<code>streets/*.json</code>) is open — anyone can design
+        a block with the editor and submit it. Every street is validated against the core schema
+        before it loads. See <code>docs/GOVERNANCE.md</code>.</p>
+    </section>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/schema.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

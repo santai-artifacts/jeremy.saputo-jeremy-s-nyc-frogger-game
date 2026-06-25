@@ -1,0 +1,17 @@
+{
+  "id": "broadway",
+  "name": "Broadway & the Hudson",
+  "author": "core-team",
+  "description": "Dodge the avenue traffic, then raft across the Hudson to the stoops.",
+  "rows": [
+    { "type": "goal",  "slots": [0, 3, 6, 9, 12] },
+    { "type": "water", "dir": -1, "speed": 1.0, "sprite": "ferry", "gap": 4 },
+    { "type": "water", "dir":  1, "speed": 1.3, "sprite": "raft",  "gap": 3 },
+    { "type": "water", "dir": -1, "speed": 1.6, "sprite": "kayak", "gap": 3 },
+    { "type": "safe" },
+    { "type": "road",  "dir":  1, "speed": 2.0, "sprite": "taxi",  "gap": 4 },
+    { "type": "road",  "dir": -1, "speed": 1.6, "sprite": "bike",  "gap": 4 },
+    { "type": "road",  "dir":  1, "speed": 1.6, "sprite": "truck", "gap": 6 },
+    { "type": "start" }
+  ]
+}

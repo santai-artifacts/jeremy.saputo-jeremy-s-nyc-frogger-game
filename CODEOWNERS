@@ -1,0 +1,25 @@
+# CODEOWNERS — enforces the two-layer governance model.
+#
+# The CORE RULES LAYER is owned by a limited set of maintainers. Any PR that
+# touches these paths must be reviewed by a code owner. This is what keeps the
+# central layer controlled.
+#
+# Replace the placeholder handles below with your real maintainer team, and
+# enable "Require review from Code Owners" in branch protection.
+
+# --- Core rules: movement, collision, scoring, the schema contract ---
+/js/config.js   @gotham-core
+/js/schema.js   @gotham-core
+/js/engine.js   @gotham-core
+
+# --- App shell & tooling ---
+/js/main.js     @gotham-core
+/js/editor.js   @gotham-core
+
+# --- Docs that define the contract ---
+/docs/          @gotham-core
+/CODEOWNERS     @gotham-core
+
+# --- The STREET LAYER is intentionally NOT owned here ---
+# streets/** has no code owner, so community street PRs can be reviewed and
+# merged by a broader group (with the validator as the safety gate).
