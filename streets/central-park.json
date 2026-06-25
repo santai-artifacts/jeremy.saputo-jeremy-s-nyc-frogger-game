@@ -1,0 +1,18 @@
+{
+  "id": "central-park",
+  "name": "Central Park Crossing",
+  "author": "core-team",
+  "theme": "centralpark",
+  "description": "Cross the park drive past horse carriages, pedicabs, and weekend cyclists, then hop the rowboats and lily pads across the lake to the stoops along the green.",
+  "rows": [
+    { "type": "goal",  "slots": [0, 3, 6, 9, 12] },
+    { "type": "water", "dir": -1, "speed": 1.0, "sprite": "rowboat", "gap": 3 },
+    { "type": "water", "dir":  1, "speed": 1.4, "sprite": "lilypad", "gap": 2 },
+    { "type": "water", "dir": -1, "speed": 0.9, "sprite": "rowboat", "gap": 4 },
+    { "type": "safe" },
+    { "type": "road",  "dir":  1, "speed": 1.4, "sprite": "carriage", "gap": 4 },
+    { "type": "road",  "dir": -1, "speed": 1.8, "sprite": "pedicab",  "gap": 3 },
+    { "type": "road",  "dir":  1, "speed": 2.2, "sprite": "bike",     "gap": 3 },
+    { "type": "start" }
+  ]
+}

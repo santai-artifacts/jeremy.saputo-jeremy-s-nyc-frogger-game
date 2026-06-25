@@ -73,14 +73,19 @@ GOTHAM.CATALOG = {
   bus:    { kind: 'vehicle', len: 2, shape: 'bus',    color: '#60a5fa' },
   truck:  { kind: 'vehicle', len: 2, shape: 'truck',  color: '#e2e8f0' },
   cart:   { kind: 'vehicle', len: 1, shape: 'cart',   color: '#fb923c' }, // halal/food cart
-  wallet: { kind: 'vehicle', len: 1, shape: 'wallet', color: '#92400e' }, // pickpocket loot
-  purse:  { kind: 'vehicle', len: 1, shape: 'purse',  color: '#be123c' },
+  wallet: { kind: 'vehicle', len: 1, shape: 'wallet', color: '#92400e' }, // pickpocket loot (Canal St)
+  purse:  { kind: 'vehicle', len: 1, shape: 'purse',  color: '#be123c' }, // pickpocket loot (Canal St)
+  tourbus:  { kind: 'vehicle', len: 2, shape: 'tourbus',  color: '#dc2626' }, // double-decker (Times Sq)
+  carriage: { kind: 'vehicle', len: 2, shape: 'carriage', color: '#6d4423' }, // horse-drawn (Central Park)
+  pedicab:  { kind: 'vehicle', len: 1, shape: 'pedicab',  color: '#0ea5e9' }, // bike rickshaw (Central Park)
 
   // Water footing -----------------------------------------------------------
   ferry:  { kind: 'platform', len: 3, shape: 'ferry', color: '#f97316' },
   barge:  { kind: 'platform', len: 2, shape: 'barge', color: '#64748b' },
   raft:   { kind: 'platform', len: 2, shape: 'raft',  color: '#92400e' },
   kayak:  { kind: 'platform', len: 1, shape: 'kayak', color: '#eab308' },
+  rowboat:  { kind: 'platform', len: 2, shape: 'rowboat', color: '#a16207' }, // Central Park lake
+  lilypad:  { kind: 'platform', len: 1, shape: 'lilypad', color: '#22c55e' }, // Central Park lake
 };
 
 /* -----------------------------------------------------------------------------
@@ -90,6 +95,6 @@ GOTHAM.LANE_TYPES = {
   start: 'Sidewalk where the hopper begins each life. Always safe.',
   safe:  'A median / sidewalk. Safe to stand on.',
   road:  'Traffic flows across; touching a vehicle is fatal.',
-  water: 'The Hudson; you must ride a platform or you fall in.',
+  water: 'Open water; you must ride a platform or you fall in.',
   goal:  'Destination stoops; reach an empty slot to bank it.',
 };

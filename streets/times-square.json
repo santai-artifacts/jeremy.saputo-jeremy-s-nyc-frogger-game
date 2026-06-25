@@ -1,0 +1,17 @@
+{
+  "id": "times-square",
+  "name": "Times Square Dazzle",
+  "author": "core-team",
+  "theme": "timessquare",
+  "description": "The Crossroads of the World under a wall of neon and Broadway marquees. Yellow cabs, double-decker tour buses, and hot-dog carts jam the avenue — no river here, just the brightest block on Earth.",
+  "rows": [
+    { "type": "goal",  "slots": [1, 3, 6, 9, 11] },
+    { "type": "road",  "dir":  1, "speed": 2.6, "sprite": "taxi",    "gap": 3 },
+    { "type": "road",  "dir": -1, "speed": 1.8, "sprite": "tourbus", "gap": 4 },
+    { "type": "safe" },
+    { "type": "road",  "dir":  1, "speed": 1.6, "sprite": "cart",    "gap": 4 },
+    { "type": "road",  "dir": -1, "speed": 2.8, "sprite": "taxi",    "gap": 3 },
+    { "type": "road",  "dir":  1, "speed": 2.0, "sprite": "bus",     "gap": 4 },
+    { "type": "start" }
+  ]
+}

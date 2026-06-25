@@ -221,12 +221,12 @@ GOTHAM.Game = class Game {
     // WATER: must be riding a platform; ride along with it.
     if (row.type === 'water') {
       const carrier = this._entityUnder(row, h.col + h.px);
-      if (!carrier) return this._die('Splash! Into the Hudson.');
+      if (!carrier) return this._die('Splash! Into the lake.');
       h.px += row.dir * row.speed * dt;
       // Snap visual column when we drift a full tile.
       while (h.px >= 0.5) { h.px -= 1; h.col += 1; }
       while (h.px <= -0.5) { h.px += 1; h.col -= 1; }
-      if (h.col < 0 || h.col > this.R.COLS - 1) return this._die('Carried off the river!');
+      if (h.col < 0 || h.col > this.R.COLS - 1) return this._die('Swept off the lake!');
     } else {
       h.px = 0;
     }
@@ -389,6 +389,7 @@ GOTHAM.Game = class Game {
   _drawLaneBg(lane, y, T) {
     const { ctx } = this;
     const W = this.W;
+    const decor = GOTHAM.DECOR[this.theme];
     let base;
     switch (lane.type) {
       case 'start': base = '#3f3f46'; break;
@@ -397,6 +398,9 @@ GOTHAM.Game = class Game {
       case 'water': base = '#0e3a5f'; break;
       default: base = '#27272a'; // road
     }
+    // A theme may repaint the base of a lane type (e.g. Central Park's grass
+    // medians and teal lake) before any tint or decor is layered on top.
+    if (decor && decor.base && decor.base[lane.type]) base = decor.base[lane.type];
     ctx.fillStyle = base;
     ctx.fillRect(0, y, W, T);
 
@@ -423,7 +427,6 @@ GOTHAM.Game = class Game {
     }
 
     // Per-street themed backdrop (e.g. Chinatown lanterns & storefronts).
-    const decor = GOTHAM.DECOR[this.theme];
     if (decor) {
       const tint = decor.tint && decor.tint[lane.type];
       if (tint) { ctx.fillStyle = tint; ctx.fillRect(0, y, W, T); }
@@ -433,16 +436,23 @@ GOTHAM.Game = class Game {
 
   _drawGoals(lane, y, T) {
     const { ctx } = this;
-    const isCt = this.theme === 'chinatown';
+    // The filler between stoops takes on the street's character: a Chinatown
+    // shopfront, a Central Park hedge, or a dark billboard wall in Times Square.
+    const WALLS = {
+      chinatown:   { fill: '#7c2d12', top: 'rgba(251,191,36,0.25)' },
+      centralpark: { fill: '#166534', top: 'rgba(255,255,255,0.10)' },
+      timessquare: { fill: '#1e1b4b', top: 'rgba(34,211,238,0.22)' },
+      default:     { fill: '#166534', top: 'rgba(255,255,255,0.06)' },
+    };
+    const wall = WALLS[this.theme] || WALLS.default;
     for (let c = 0; c < this.R.COLS; c++) {
       const isSlot = lane.slots.includes(c);
       if (isSlot) {
         GOTHAM.SPRITES.goalSlot(ctx, c * T, y, T, this.filledSlots.has(c), this.theme);
       } else {
-        // wall between stoops — a hedge, or a brick shopfront in Chinatown
-        ctx.fillStyle = isCt ? '#7c2d12' : '#166534';
+        ctx.fillStyle = wall.fill;
         ctx.fillRect(c * T + 2, y + 4, T - 4, T - 8);
-        ctx.fillStyle = isCt ? 'rgba(251,191,36,0.25)' : 'rgba(255,255,255,0.06)';
+        ctx.fillStyle = wall.top;
         ctx.fillRect(c * T + 2, y + 4, T - 4, T * 0.12);
       }
     }
