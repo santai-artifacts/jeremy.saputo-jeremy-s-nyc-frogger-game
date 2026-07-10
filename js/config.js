@@ -18,7 +18,7 @@ window.GOTHAM = window.GOTHAM || {};
 GOTHAM.RULES = {
   // --- Grid -----------------------------------------------------------------
   COLS: 13,            // logical columns; every street is this wide
-  TILE: 48,           // pixel size of one tile (rendering scales from this)
+  TILE: 64,           // pixel size of one tile (rendering scales from this)
 
   // --- Scoring --------------------------------------------------------------
   SCORE_FORWARD: 10,        // points for each new furthest row reached
@@ -66,7 +66,7 @@ GOTHAM.CATALOG = {
   // Road hazards ------------------------------------------------------------
   // `shape` selects the vector drawing routine in sprites.js; `color` is its
   // base paint. No emoji — everything on the board is drawn.
-  taxi:   { kind: 'vehicle', len: 1, shape: 'car',    color: '#f7c948' },
+  taxi:   { kind: 'vehicle', len: 1, shape: 'taxi',   color: '#f7c948' },
   car:    { kind: 'vehicle', len: 1, shape: 'car',    color: '#3b82f6' },
   police: { kind: 'vehicle', len: 1, shape: 'police', color: '#1d4ed8' },
   bike:   { kind: 'vehicle', len: 1, shape: 'bike',   color: '#22d3ee' },

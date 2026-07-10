@@ -392,11 +392,11 @@ GOTHAM.Game = class Game {
     const decor = GOTHAM.DECOR[this.theme];
     let base;
     switch (lane.type) {
-      case 'start': base = '#3f3f46'; break;
+      case 'start': base = '#48484e'; break;
       case 'safe': base = '#52525b'; break;
       case 'goal': base = '#14532d'; break;
       case 'water': base = '#0e3a5f'; break;
-      default: base = '#27272a'; // road
+      default: base = '#252525'; // road asphalt
     }
     // A theme may repaint the base of a lane type (e.g. Central Park's grass
     // medians and teal lake) before any tint or decor is layered on top.
@@ -405,25 +405,39 @@ GOTHAM.Game = class Game {
     ctx.fillRect(0, y, W, T);
 
     if (lane.type === 'road') {
-      ctx.strokeStyle = 'rgba(250,204,21,0.55)';
-      ctx.lineWidth = 2;
-      ctx.setLineDash([12, 12]);
+      // Subtle asphalt grain — two-tone fill
+      ctx.fillStyle = 'rgba(255,255,255,0.025)';
+      for (let gx = 0; gx < W; gx += T * 0.9) ctx.fillRect(gx, y + T * 0.10, T * 0.45, T * 0.80);
+      // White edge lines
+      ctx.strokeStyle = 'rgba(255,255,255,0.60)';
+      ctx.lineWidth = 1.5; ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(0, y + T * 0.04); ctx.lineTo(W, y + T * 0.04); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, y + T * 0.96); ctx.lineTo(W, y + T * 0.96); ctx.stroke();
+      // Yellow dashed center divider
+      ctx.strokeStyle = 'rgba(250,204,21,0.70)';
+      ctx.lineWidth = Math.max(1.5, T * 0.028);
+      ctx.setLineDash([T * 0.28, T * 0.18]);
       ctx.beginPath();
       ctx.moveTo(0, y + T / 2); ctx.lineTo(W, y + T / 2);
       ctx.stroke();
       ctx.setLineDash([]);
     } else if (lane.type === 'water') {
-      ctx.strokeStyle = 'rgba(125,211,252,0.18)';
+      // Wave lines
+      ctx.strokeStyle = 'rgba(125,211,252,0.22)';
       ctx.lineWidth = 1;
-      for (let k = 0; k < 3; k++) {
+      for (let k = 0; k < 4; k++) {
         ctx.beginPath();
-        ctx.moveTo(0, y + T * (0.3 + k * 0.2));
-        ctx.lineTo(W, y + T * (0.3 + k * 0.2));
+        ctx.moveTo(0, y + T * (0.25 + k * 0.18));
+        ctx.lineTo(W, y + T * (0.25 + k * 0.18));
         ctx.stroke();
       }
     } else if (lane.type === 'start' || lane.type === 'safe') {
-      ctx.fillStyle = 'rgba(255,255,255,0.04)';
-      for (let x = 0; x < W; x += 12) ctx.fillRect(x, y, 6, T);
+      // Concrete slab pattern (default — themed streets override in DECOR)
+      ctx.fillStyle = 'rgba(255,255,255,0.035)';
+      const slabW = T * 1.2;
+      for (let x = 0; x < W; x += slabW) ctx.fillRect(x, y, slabW * 0.96, T);
+      ctx.fillStyle = 'rgba(0,0,0,0.06)';
+      ctx.fillRect(0, y + T * 0.90, W, T * 0.10);
     }
 
     // Per-street themed backdrop (e.g. Chinatown lanterns & storefronts).
@@ -439,7 +453,7 @@ GOTHAM.Game = class Game {
     // The filler between stoops takes on the street's character: a Chinatown
     // shopfront, a Central Park hedge, or a dark billboard wall in Times Square.
     const WALLS = {
-      chinatown:   { fill: '#7c2d12', top: 'rgba(251,191,36,0.25)' },
+      chinatown:   { fill: '#5a2a1a', top: 'rgba(251,191,36,0.30)' },
       centralpark: { fill: '#166534', top: 'rgba(255,255,255,0.10)' },
       timessquare: { fill: '#1e1b4b', top: 'rgba(34,211,238,0.22)' },
       default:     { fill: '#166534', top: 'rgba(255,255,255,0.06)' },
